@@ -79,7 +79,7 @@ bool inserirElementoPos(TListaC<type>& lista, int novoElemento, int pos){
 }
 
 template<class type>
-bool inserirElementoFinal(TListaC<type> &lista, int novoElemento){
+bool insereElementoFinal(TListaC<type> &lista, int novoElemento){
 	return inserirElementoPos(lista, novoElemento, tamanho(lista));
 }
 
@@ -158,7 +158,7 @@ bool estaContido(TListaC<type> &lista, type elemento){
 }
 
 template<class type>
-TElementoC<type>* obter(TListaC<type> &lista, int pos){
+TElementoC<type>* retornaElemento(TListaC<type> &lista, int pos){
 	if(pos >= tamanho(lista)){
 		//throw "Index out of range";
 		return nullptr;
@@ -179,7 +179,7 @@ TElementoC<type>* obter(TListaC<type> &lista, int pos){
 }
 
 template<class type>
-void printLista(TListaC<type> &lista){
+void imprimeLista(TListaC<type> &lista){
 	if(lista.primeiro == NULL){
 		std::cout << "Lista vazia.\n";
 	} else {

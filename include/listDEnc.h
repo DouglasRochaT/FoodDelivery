@@ -32,7 +32,7 @@ void inicializarLista(TListaDE<type>& lista){
 }
 
 template<class type>
-void inserirElementoFinal(TListaDE<type>& lista, type elemento){
+void insereElementoFinal(TListaDE<type>& lista, type elemento){
 	TElementoDE<type>* novo = new TElementoDE<type>;
 	novo->conteudo = elemento;
 	novo->proximo = NULL;
@@ -70,7 +70,7 @@ bool inserirElementoPos(TListaDE<type>& lista, type elemento, int pos){
 		inserirElementoComeco(lista, elemento);
 		return true;
 	} else if(pos == tamanho(lista)){
-		inserirElementoFinal(lista, elemento);
+		insereElementoFinal(lista, elemento);
 		return true;
 	} else {
 		TElementoDE<type>* anterior = lista.primeiro;
@@ -157,7 +157,7 @@ bool removerElementoPos(TListaDE<type> &lista, int pos){
 }
 
 template<class type>
-TElementoDE<type>* obter(TListaDE<type> &lista, int pos){
+TElementoDE<type>* retornaElemento(TListaDE<type> &lista, int pos){
 	if(pos >= tamanho(lista)){
 		return nullptr;
 	} else {
@@ -198,7 +198,7 @@ bool estaContido(TListaDE<type> &lista, type elemento){
 }
 
 template<class type>
-void printLista(TListaDE<type> &lista){
+void imprimeLista(TListaDE<type> &lista){
 	if(lista.primeiro == NULL){
 		std::cout << "Lista vazia.\n";
 	} else {

@@ -29,7 +29,7 @@ int tamanho(TListaEnc<type> &lista){
 }
 
 template<class type>
-TElemento<type>* insere_elemento(TListaEnc<type> &lista, type conteudo, TElemento<type>* ponteiroApos = NULL){
+TElemento<type>* criaElemento(TListaEnc<type> &lista, type conteudo, TElemento<type>* ponteiroApos = NULL){
 	TElemento<type>* elemento = new TElemento<type>;
 	elemento->conteudo = conteudo;
 	elemento->proximo = ponteiroApos;
@@ -37,25 +37,25 @@ TElemento<type>* insere_elemento(TListaEnc<type> &lista, type conteudo, TElement
 }
 
 template<class type>
-void inserirElementoFinal(TListaEnc<type> &lista, type conteudo){
+void insereElementoFinal(TListaEnc<type> &lista, type conteudo){
 	if(lista.primeiro == NULL){
-		lista.primeiro = insere_elemento(lista, conteudo);
+		lista.primeiro = criaElemento(lista, conteudo);
 	} else {
 		TElemento<type>* nav = lista.primeiro;
 		while(nav->proximo != NULL){
 			nav = nav->proximo;
 		}
-		nav->proximo = insere_elemento(lista, conteudo);
+		nav->proximo = criaElemento(lista, conteudo);
 	}
 }
 
 template<class type>
 void inserirElementoComeco(TListaEnc<type> &lista, type conteudo){
 	if(lista.primeiro == NULL){
-		lista.primeiro = insere_elemento(lista, conteudo);
+		lista.primeiro = criaElemento(lista, conteudo);
 	} else {
 		TElemento<type>* nav = lista.primeiro;
-		lista.primeiro = insere_elemento(lista, conteudo, nav);
+		lista.primeiro = criaElemento(lista, conteudo, nav);
 	}
 }
 
@@ -72,17 +72,17 @@ bool inserirElementoPos(TListaEnc<type> &lista, type conteudo, int pos){
 		}
 		if(pos == 0){
 			if(nav->proximo == NULL){
-				lista.primeiro = insere_elemento(lista, conteudo);
+				lista.primeiro = criaElemento(lista, conteudo);
 			} else {
 				TElemento<type>* nav2 = lista.primeiro;
-				lista.primeiro = insere_elemento(lista, conteudo, nav2);
+				lista.primeiro = criaElemento(lista, conteudo, nav2);
 			}
 		} else {
 			if(nav->proximo == NULL){
-				nav->proximo = insere_elemento(lista, conteudo);
+				nav->proximo = criaElemento(lista, conteudo);
 			} else {
 				TElemento<type>* nav2 = nav->proximo;
-				nav->proximo = insere_elemento(lista, conteudo, nav2);
+				nav->proximo = criaElemento(lista, conteudo, nav2);
 			}
 		}
 		return true;
@@ -177,7 +177,7 @@ int procurar(TListaEnc<type> &lista, type elemento){
 }
 
 template<class type>
-TElemento<type>* obter(TListaEnc<type> &lista, int pos){
+TElemento<type>* retornaElemento(TListaEnc<type> &lista, int pos){
 	if(pos < 0 || pos >= tamanho(lista)){
 		return nullptr;
 	} else {
