@@ -27,7 +27,7 @@ int tamanho(TListaDE<type>& lista){
 }
 
 template<class type>
-void inicializarLista(TListaDE<type>& lista){
+void inicializaLista(TListaDE<type>& lista){
 	lista.primeiro = NULL;
 }
 
@@ -50,7 +50,7 @@ void insereElementoFinal(TListaDE<type>& lista, type elemento){
 }
 
 template<class type>
-void inserirElementoComeco(TListaDE<type>& lista, type elemento){
+void insereElementoComeco(TListaDE<type>& lista, type elemento){
 	TElementoDE<type>* novo = new TElementoDE<type>;
 	if(tamanho(lista)){
 		TElementoDE<type>* segundo = lista.primeiro;
@@ -63,11 +63,11 @@ void inserirElementoComeco(TListaDE<type>& lista, type elemento){
 }
 
 template<class type>
-bool inserirElementoPos(TListaDE<type>& lista, type elemento, int pos){
+bool insereElementoPos(TListaDE<type>& lista, type elemento, int pos){
 	if(pos < 0 || pos > tamanho(lista)){
 		return false;
 	} else if(pos == 0){
-		inserirElementoComeco(lista, elemento);
+		insereElementoComeco(lista, elemento);
 		return true;
 	} else if(pos == tamanho(lista)){
 		insereElementoFinal(lista, elemento);
@@ -91,7 +91,7 @@ bool inserirElementoPos(TListaDE<type>& lista, type elemento, int pos){
 }
 
 template<class type>
-bool removerElementoComeco(TListaDE<type> &lista){
+bool removeElementoComeco(TListaDE<type> &lista){
 	if(lista.primeiro == NULL){
 		return false;
 	} else if(tamanho(lista) == 1){
@@ -109,7 +109,7 @@ bool removerElementoComeco(TListaDE<type> &lista){
 }
 
 template<class type>
-bool removerElementoFinal(TListaDE<type> &lista){
+bool removeElementoFinal(TListaDE<type> &lista){
 	if(lista.primeiro == NULL){
 		return false;
 	} else if(tamanho(lista) == 1){
@@ -131,11 +131,11 @@ bool removerElementoFinal(TListaDE<type> &lista){
 }
 
 template<class type>
-bool removerElementoPos(TListaDE<type> &lista, int pos){
+bool removeElementoPos(TListaDE<type> &lista, int pos){
 	if(lista.primeiro == NULL || pos >= tamanho(lista)){
 		return false;
 	} else if(pos == 0){
-		removerElementoComeco(lista);
+		removeElementoComeco(lista);
 	} else {
 		TElementoDE<type>* nav = lista.primeiro;
 		int contador = 0;
@@ -172,7 +172,7 @@ TElementoDE<type>* retornaElemento(TListaDE<type> &lista, int pos){
 }
 
 template<class type>
-int procurar(TListaDE<type> &lista, type elemento){
+int procura(TListaDE<type> &lista, type elemento){
 	TElementoDE<type>* nav = lista.primeiro;
 	int contador = 0;
 	while(nav != NULL){
@@ -220,5 +220,4 @@ void imprimeLista(TListaDE<type> &lista){
 		std::cout << nav->conteudo << ".\n";
 	}
 }
-
 #endif

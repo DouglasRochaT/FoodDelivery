@@ -13,7 +13,7 @@ struct TListaEnc {
 };
 
 template<class type>
-void inicializarLista(TListaEnc<type> &lista){
+void inicializaLista(TListaEnc<type> &lista){
 	lista.primeiro = NULL;
 }
 
@@ -50,7 +50,7 @@ void insereElementoFinal(TListaEnc<type> &lista, type conteudo){
 }
 
 template<class type>
-void inserirElementoComeco(TListaEnc<type> &lista, type conteudo){
+void insereElementoComeco(TListaEnc<type> &lista, type conteudo){
 	if(lista.primeiro == NULL){
 		lista.primeiro = criaElemento(lista, conteudo);
 	} else {
@@ -60,7 +60,7 @@ void inserirElementoComeco(TListaEnc<type> &lista, type conteudo){
 }
 
 template<class type>
-bool inserirElementoPos(TListaEnc<type> &lista, type conteudo, int pos){
+bool insereElementoPos(TListaEnc<type> &lista, type conteudo, int pos){
 	if(pos > coletatamanho(lista) || pos < 0){
 		return false;
 	} else {
@@ -90,7 +90,7 @@ bool inserirElementoPos(TListaEnc<type> &lista, type conteudo, int pos){
 }
 
 template<class type>
-bool removerElementoFinal(TListaEnc<type> &lista){
+bool removeElementoFinal(TListaEnc<type> &lista){
 	if(lista.primeiro == NULL){
 		return false;
 	}
@@ -111,7 +111,7 @@ bool removerElementoFinal(TListaEnc<type> &lista){
 }
 
 template<class type>
-bool removerElementoComeco(TListaEnc<type> &lista){
+bool removeElementoComeco(TListaEnc<type> &lista){
 	if(lista.primeiro == NULL){
 		throw "Nao foi possivel deletar, a lista esta vazia.";
 		return false;
@@ -129,7 +129,7 @@ bool removerElementoComeco(TListaEnc<type> &lista){
 }
 
 template<class type>
-bool removerElementoPos(TListaEnc<type> &lista, int pos){
+bool removeElementoPos(TListaEnc<type> &lista, int pos){
 	if(pos > tamanho(lista) || pos < 0 || lista.primeiro == NULL){
 		return false;
 	} else if(pos == 0 && tamanho(lista) == 1){
@@ -163,7 +163,7 @@ bool estaContido(TListaEnc<type> &lista, type elemento){
 }
 
 template<class type>
-int procurar(TListaEnc<type> &lista, type elemento){
+int procura(TListaEnc<type> &lista, type elemento){
 	TElemento<type>* nav = lista.primeiro;
 	int contador = 0;
 	while(nav != NULL){
@@ -192,7 +192,7 @@ TElemento<type>* retornaElemento(TListaEnc<type> &lista, int pos){
 }
 
 template<class type>
-void printLista(TListaEnc<type> &lista){
+void imprimeLista(TListaEnc<type> &lista){
 	if(lista.primeiro == NULL){
 		std::cout << "Lista vazia.\n";
 		return;
@@ -213,5 +213,4 @@ void printLista(TListaEnc<type> &lista){
 	}
 	std::cout << nav->conteudo << ".\n";
 }
-
 #endif

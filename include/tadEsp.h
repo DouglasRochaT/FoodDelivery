@@ -2,16 +2,23 @@
 #define TADESP_H
 
 #include "listEnc.h"
+#include <iostream>
 
 struct Item{
     const char* nome;
-    float preco;
+    double preco;
 };
 
 struct Pedido{
     const char* alimento;
     const char* bebida;
-    float preco;
+    double preco;
+};
+
+struct Entregador {
+    const char* nome;
+    bool disponivel;
+    int tempoRestante;
 };
 
 void preencheCardapio(TListaEnc<Item>& lista){
@@ -27,6 +34,30 @@ void preencheCardapio(TListaEnc<Item>& lista){
     insereElementoFinal(lista, {"Cafe", 3.2});
     insereElementoFinal(lista, {"Agua sem Gas", 2.7});
     insereElementoFinal(lista, {"Agua com Gas", 3.0});  
+}
+
+void preencheListaEntregadores(TListaC<Entregador> &lista, int tamanho){
+    const char* nomes[10] = {"Marcelo", "Joao", "Rudson", "Marco", "Davi", "Carlos", "Ricardo", "Douglas", "Pedro", "Mauricio"};
+    for(int i = 0; i < tamanho; i++){
+        insereElementoFinal(lista, {nomes[i % 10], true, 0});
+    }
+}
+
+void imprimeLista(TListaC<Entregador> &lista){
+    if(lista.primeiro == NULL){
+        std::cerr << "Lista de Pedidos Vazia.\n";
+    } else {
+        std::cout << "Imprimindo Lista de Pedidos \n";
+        int contador = 0;
+        TElementoC<Entregador>* nav = lista.primeiro;
+        std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << ", " << nav->conteudo.disponivel << "\n";
+        nav = nav->proximo;
+        contador++;
+        for(nav; nav != lista.primeiro; nav = nav->proximo){
+            std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << ", " << nav->conteudo.disponivel << "\n";
+            contador++;
+        }
+    }
 }
 
 void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &listaPedidos){

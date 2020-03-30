@@ -15,7 +15,7 @@ struct TListaC {
 };
 
 template<class type>
-void inicializarLista(TListaC<type> &lista){
+void inicializaLista(TListaC<type> &lista){
 	lista.primeiro = NULL;
 }
 
@@ -35,7 +35,7 @@ int tamanho(TListaC<type> &lista){
 }
 
 template<class type>
-bool inserirElementoComeco(TListaC<type> &lista, type novoElemento){
+bool insereElementoComeco(TListaC<type> &lista, type novoElemento){
 	if(lista.primeiro == NULL){
 		TElementoC<type>* novo = new TElementoC<type>;
 		lista.primeiro = novo;
@@ -56,11 +56,11 @@ bool inserirElementoComeco(TListaC<type> &lista, type novoElemento){
 }
 
 template<class type>
-bool inserirElementoPos(TListaC<type>& lista, int novoElemento, int pos){
+bool insereElementoPos(TListaC<type>& lista, type novoElemento, int pos){
 	if(pos > tamanho(lista) || pos < 0){
 		return false;
 	} else if(pos == 0) {
-		return inserirElementoComeco(lista, novoElemento);
+		return insereElementoComeco(lista, novoElemento);
 	} else {
 		TElementoC<type>* nav = lista.primeiro;
 		TElementoC<type>* navAnt = lista.primeiro;
@@ -79,12 +79,12 @@ bool inserirElementoPos(TListaC<type>& lista, int novoElemento, int pos){
 }
 
 template<class type>
-bool insereElementoFinal(TListaC<type> &lista, int novoElemento){
-	return inserirElementoPos(lista, novoElemento, tamanho(lista));
+bool insereElementoFinal(TListaC<type> &lista, type novoElemento){
+	return insereElementoPos(lista, novoElemento, tamanho(lista));
 }
 
 template<class type>
-bool removerElementoPos(TListaC<type> &lista, int pos){
+bool removeElementoPos(TListaC<type> &lista, int pos){
 	if(lista.primeiro == NULL || pos >= tamanho(lista)){
 		return false;
 	} else if(pos == 0 && lista.primeiro->proximo == lista.primeiro){
@@ -108,12 +108,12 @@ bool removerElementoPos(TListaC<type> &lista, int pos){
 }
 
 template<class type>
-bool removerElementoFinal(TListaC<type> &lista){
-	return removerElementoPos(lista, tamanho(lista) - 1);
+bool removeElementoFinal(TListaC<type> &lista){
+	return removeElementoPos(lista, tamanho(lista) - 1);
 }
 
 template<class type>
-bool removerElementoComeco(TListaC<type> &lista){
+bool removeElementoComeco(TListaC<type> &lista){
 	if(lista.primeiro == NULL){
 		return false;
 	} else if(tamanho(lista) == 1){
@@ -135,7 +135,7 @@ bool removerElementoComeco(TListaC<type> &lista){
 }
 
 template<class type>
-int procurar(TListaC<type> &lista, int elemento){
+int procura(TListaC<type> &lista, int elemento){
 	TElementoC<type>* nav = lista.primeiro;
 	int contador = 0;
 	while(nav->proximo != lista.primeiro){
@@ -154,7 +154,7 @@ int procurar(TListaC<type> &lista, int elemento){
 
 template<class type>
 bool estaContido(TListaC<type> &lista, type elemento){
-	return procurar(lista, elemento) >= 0;
+	return procura(lista, elemento) >= 0;
 }
 
 template<class type>
