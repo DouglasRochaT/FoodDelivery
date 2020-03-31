@@ -13,11 +13,11 @@ struct Pedido{
     const char* alimento;
     const char* bebida;
     double preco;
+    int tempoPreparo;
 };
 
 struct Entregador {
     const char* nome;
-    bool disponivel;
     int tempoRestante;
 };
 
@@ -39,7 +39,7 @@ void preencheCardapio(TListaEnc<Item>& lista){
 void preencheListaEntregadores(TListaC<Entregador> &lista, int tamanho){
     const char* nomes[10] = {"Marcelo", "Joao", "Rudson", "Marco", "Davi", "Carlos", "Ricardo", "Douglas", "Pedro", "Mauricio"};
     for(int i = 0; i < tamanho; i++){
-        insereElementoFinal(lista, {nomes[i % 10], true, 0});
+        insereElementoFinal(lista, {nomes[i % 10], 0});
     }
 }
 
@@ -50,21 +50,14 @@ void imprimeLista(TListaC<Entregador> &lista){
         std::cout << "Imprimindo Lista de Pedidos \n";
         int contador = 0;
         TElementoC<Entregador>* nav = lista.primeiro;
-        std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << ", " << nav->conteudo.disponivel << "\n";
+        std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << "\n";
         nav = nav->proximo;
         contador++;
         for(nav; nav != lista.primeiro; nav = nav->proximo){
-            std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << ", " << nav->conteudo.disponivel << "\n";
+            std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << "\n";
             contador++;
         }
     }
-}
-
-void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &listaPedidos){
-    TElemento<Item>* alimento = retornaElemento(cardapio, rand() % 6);
-    TElemento<Item>* bebida = retornaElemento(cardapio, (rand() % 6) + 6);
-    insereElementoFinal(listaPedidos, {alimento->conteudo.nome, bebida->conteudo.nome, alimento->conteudo.preco + bebida->conteudo.preco});
-    std::cout << "Novo Pedido! \n" << "Alimento: " << alimento->conteudo.nome << " | Bebida: " << bebida->conteudo.nome <<  " | Preco: " << alimento->conteudo.preco + bebida->conteudo.preco << ". \n";
 }
 
 void imprimeLista(TListaDE<Pedido> &lista){

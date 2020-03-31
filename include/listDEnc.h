@@ -159,7 +159,7 @@ bool removeElementoPos(TListaDE<type> &lista, int pos){
 template<class type>
 TElementoDE<type>* retornaElemento(TListaDE<type> &lista, int pos){
 	if(pos >= tamanho(lista)){
-		return nullptr;
+		return NULL;
 	} else {
 		TElementoDE<type>* nav = lista.primeiro;
 		int contador = 0;
