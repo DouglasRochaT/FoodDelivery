@@ -9,7 +9,7 @@ struct Item{
     double preco;
 };
 
-struct Pedido{
+struct Pedido{ //TODO: implementar nome, endereço e tempo estimado
     const char* alimento;
     const char* bebida;
     double preco;
@@ -50,24 +50,24 @@ void imprimeLista(TListaC<Entregador> &lista){
         std::cout << "Imprimindo Lista de Pedidos \n";
         int contador = 0;
         TElementoC<Entregador>* nav = lista.primeiro;
-        std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << "\n";
+        std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << ": addt: " << nav << ", proximo: " << nav->proximo << "\n";
         nav = nav->proximo;
         contador++;
         for(nav; nav != lista.primeiro; nav = nav->proximo){
-            std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << "\n";
+            std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << ": addt: " << nav << ", proximo: " << nav->proximo << "\n";
             contador++;
         }
     }
 }
 
-void imprimeLista(TListaDE<Pedido> &lista){
+void imprimeLista(TListaEnc<Pedido> &lista){
 	if(lista.primeiro == NULL){
 		std::cerr << "Lista de Pedidos Vazia.\n";
 	} else {
         std::cout << "Imprimindo Lista de Pedidos \n";
 		int contador = 0;
-        for(TElementoDE<Pedido>* nav = lista.primeiro; nav != NULL; nav = nav->proximo){
-            std::cout << "Elemento[" << contador << "] Alimento: " << nav->conteudo.alimento << " | Bebida: " << nav->conteudo.bebida <<  " | Preco: " << nav->conteudo.preco << ". Anterior: " << nav->anterior << ", Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
+        for(TElemento<Pedido>* nav = lista.primeiro; nav != NULL; nav = nav->proximo){
+            std::cout << "Elemento[" << contador << "] Alimento: " << nav->conteudo.alimento << " | Bebida: " << nav->conteudo.bebida <<  " | Preco: " << nav->conteudo.preco << ". Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
             contador++;
         }
     }

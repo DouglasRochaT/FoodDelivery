@@ -92,6 +92,8 @@ bool removeElementoPos(TListaC<type> &lista, int pos){
 		delete nav;
 		lista.primeiro = NULL;
 		return true;
+	} else if(pos == 0){
+		removeElementoComeco(lista);
 	} else {
 		TElementoC<type>* nav = lista.primeiro;
 		TElementoC<type>* navAnt = nav;
@@ -176,6 +178,7 @@ TElementoC<type>* retornaElemento(TListaC<type> &lista, int pos){
 			return nav;
 		}
 	}
+	return nullptr;
 }
 
 template<class type>

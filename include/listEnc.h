@@ -19,11 +19,15 @@ void inicializaLista(TListaEnc<type> &lista){
 
 template<class type>
 int tamanho(TListaEnc<type> &lista){
+	int contador = 0;
 	TElemento<type>* nav = lista.primeiro;
-	int contador = 1;
-	while(nav->proximo != NULL){
-		nav = nav->proximo;
-		contador++;
+	if(nav == NULL){
+		return contador;
+	} else {
+		while(nav->proximo != NULL){
+			nav = nav->proximo;
+			contador++;
+		}
 	}
 	return contador;
 }
@@ -178,7 +182,7 @@ int procura(TListaEnc<type> &lista, type elemento){
 
 template<class type>
 TElemento<type>* retornaElemento(TListaEnc<type> &lista, int pos){
-	if(pos < 0 || pos >= tamanho(lista)){
+	if(pos < 0 || pos > tamanho(lista)){
 		return nullptr;
 	} else {
 		TElemento<type>* nav = lista.primeiro;
