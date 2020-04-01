@@ -18,22 +18,21 @@ void decrementaTempoEntregadores(TListaC<Entregador> &lista){
     std::cout << "\n";
 }
 
-TElementoC<Entregador>* selecionaEntregador(TListaC<Entregador> &listaEntregadores, int &entregadorAtual){
-    TElementoC<Entregador>* ultimo = retornaElemento(listaEntregadores, entregadorAtual);
-    for(TElementoC<Entregador>* nav = ultimo->proximo; nav != ultimo; nav = nav->proximo){
-        entregadorAtual = (entregadorAtual + 1) % tamanho(listaEntregadores);
-        if(!nav->conteudo.tempoRestante){
-            return nav;
+TElementoC<Entregador>* selecionaEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
+    TElementoC<Entregador>* ultimo = entregadorAtual;
+    for(entregadorAtual = entregadorAtual->proximo; entregadorAtual != ultimo; entregadorAtual = entregadorAtual->proximo){
+        if(!entregadorAtual->conteudo.tempoRestante){
+            return entregadorAtual;
         }
     }
     if(!ultimo->conteudo.tempoRestante){
-        entregadorAtual = (entregadorAtual + 1) % tamanho(listaEntregadores);
-        return ultimo;
+        entregadorAtual = ultimo;
+        return entregadorAtual;
     }
     return NULL;
 }
 
-bool enviaEntregador(TListaC<Entregador> &listaEntregadores, int &entregadorAtual){
+bool enviaEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
     TElementoC<Entregador>* entregador = selecionaEntregador(listaEntregadores, entregadorAtual);
     if(entregador != NULL){
         entregador->conteudo.tempoRestante = 7;
