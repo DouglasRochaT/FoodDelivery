@@ -86,15 +86,21 @@ void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &pedidosPendentes){
     std::cout << "Novo Pedido! \n" << "Alimento: " << alimento->conteudo.nome << " | Bebida: " << bebida->conteudo.nome << " | Preco: " << alimento->conteudo.preco + bebida->conteudo.preco << ". \n";
 }
 
-void decrementaTempoPedidos(TListaDE<Pedido> &pedidosPendentes){
+void decrementaTempoPedidos(TListaDE<Pedido> &pedidosPendentes, int numeroCozinheiros){
     if(pedidosPendentes.primeiro == NULL){
         return;
     }
     for(TElementoDE<Pedido>* nav = pedidosPendentes.primeiro; nav != NULL; nav = nav->proximo){
+        std::cout << nav->conteudo.tempoPreparo << ", ";
         if(nav->conteudo.tempoPreparo){
             nav->conteudo.tempoPreparo--;
+            numeroCozinheiros--;
+            if(!numeroCozinheiros){
+                return;
+            }
         }
     }
+    std::cout << "Tamanho: " << tamanho(pedidosPendentes);
 }
 
 #endif

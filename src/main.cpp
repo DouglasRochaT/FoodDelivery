@@ -14,7 +14,7 @@ void fechaCaixa(TListaDE<Pedido> pedidosConcluidos){
         primeiraContagem += nav->conteudo.preco;
         nav2 = nav->anterior;
     }
-    nav2 = nav2->proximo;
+    //nav2 = nav2->proximo;
     for(segundaContagem = 0; nav2 != NULL; nav2 = nav2->anterior){
         segundaContagem += nav2->conteudo.preco;
     }
@@ -42,10 +42,10 @@ int main(){
 
     TListaC<Entregador> listaEntregadores;
     inicializaLista(listaEntregadores);
-    preencheListaEntregadores(listaEntregadores);
+    preencheListaEntregadores(listaEntregadores, 5);
     imprimeLista(listaEntregadores);
     
-    //int entregadorAtual = 0;
+    int numeroDeCozinheiros = 3;
     TElementoC<Entregador>* entregadorAtual = listaEntregadores.primeiro;
 
     for(int tempoAtual = 1; tempoAtual <= 300 || tamanho(pedidosPendentes) > 0; tempoAtual++){ //O período de atendimento do restaurante é 5 horas. 
@@ -55,7 +55,7 @@ int main(){
         }
         entregaPedido(pedidosPendentes, pedidosConcluidos, listaEntregadores, entregadorAtual);
         contrataOuDemiteEntregador(listaEntregadores, entregadorAtual);
-        decrementaTempoPedidos(pedidosPendentes);
+        decrementaTempoPedidos(pedidosPendentes, numeroDeCozinheiros);
         decrementaTempoEntregadores(listaEntregadores);
         std::cout << "\n--------------------------------------------------------------\n";
     }
