@@ -48,7 +48,8 @@ int main(){
     int numeroDeCozinheiros = 3;
     TElementoC<Entregador>* entregadorAtual = listaEntregadores.primeiro;
 
-    for(int tempoAtual = 1; tempoAtual <= 300 || tamanho(pedidosPendentes) > 0; tempoAtual++){ //O período de atendimento do restaurante é 5 horas. 
+    //O período de atendimento do restaurante é 5 horas. 
+    for(int tempoAtual = 1; tempoAtual <= 300 || tamanho(pedidosPendentes) > 0; tempoAtual++){
         std::cout << "Minuto Atual: " << tempoAtual << ".\n";
         if(tempoAtual % 2 == 0 && tempoAtual <= 300){ //A cada 2 minutos, uma nova compra é efetuada.
             criaPedido(cardapio, pedidosPendentes);

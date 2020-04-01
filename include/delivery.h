@@ -79,11 +79,22 @@ void decrementaTempoEntregadores(TListaC<Entregador> &lista){
     std::cout << "\n";
 }
 
+int estimaTempo(TListaDE<Pedido> &pedidosPendentes){
+    TElementoDE<Pedido>* nav = retornaElemento(pedidosPendentes, tamanho(pedidosPendentes) - 1);
+    int tempoEstimado = 5;
+    for(nav; nav != NULL; nav = nav->anterior){
+        tempoEstimado += nav->conteudo.tempoPreparo;
+    }
+    return tempoEstimado;
+}
+
 void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &pedidosPendentes){
     TElemento<Item>* alimento = retornaElemento(cardapio, rand() % 6);
     TElemento<Item>* bebida = retornaElemento(cardapio, (rand() % 6) + 6);
-    insereElementoFinal(pedidosPendentes, {alimento->conteudo.nome, bebida->conteudo.nome, alimento->conteudo.preco + bebida->conteudo.preco, 5});
+    int tempoEstimado = estimaTempo(pedidosPendentes);
+    insereElementoFinal(pedidosPendentes, {alimento->conteudo.nome, bebida->conteudo.nome, alimento->conteudo.preco + bebida->conteudo.preco, tempoEstimado, 5});
     std::cout << "Novo Pedido! \n" << "Alimento: " << alimento->conteudo.nome << " | Bebida: " << bebida->conteudo.nome << " | Preco: " << alimento->conteudo.preco + bebida->conteudo.preco << ". \n";
+    std::cout << "Previsao de preparo: " << tempoEstimado << " minutos.\n";
 }
 
 void decrementaTempoPedidos(TListaDE<Pedido> &pedidosPendentes, int numeroCozinheiros){

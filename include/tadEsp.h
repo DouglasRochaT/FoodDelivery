@@ -11,11 +11,11 @@ struct Item{
 
 struct Pedido{ //TODO: implementar nome, endere�o e tempo estimado
     /*const char* nome;
-    const char* endereço;
-    int tempoEstimado; */
+    const char* endereço; */
     const char* alimento;
     const char* bebida;
     double preco;
+    int tempoEstimado;
     int tempoPreparo;
 };
 
