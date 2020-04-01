@@ -7,15 +7,24 @@
 #include "listEnc.h"
 #include "tadEsp.h"
 
-void decrementaTempoEntregadores(TListaC<Entregador> &lista){
-    TElementoC<Entregador>* nav = lista.primeiro;
-    if(nav->conteudo.tempoRestante){ nav->conteudo.tempoRestante--; }
-    for(nav = lista.primeiro->proximo; nav != lista.primeiro; nav = nav->proximo){
-        if(nav->conteudo.tempoRestante){
-            nav->conteudo.tempoRestante--;
-        }
+void contrataOuDemiteEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
+    int checagemEventoEntregador = rand() % 150;
+    if(checagemEventoEntregador == 0){
+        const char* nomes[5] = {"Carlos", "Ricardo", "Douglas", "Pedro", "Mauricio"};
+        int indexNome = rand() % 5;
+        insereElementoFinal(listaEntregadores, {nomes[indexNome], 0});
+        std::cout << "Novo Entregador: " << nomes[indexNome] << "\n";
     }
-    std::cout << "\n";
+    if(checagemEventoEntregador == 1 && tamanho(listaEntregadores) > 1){
+        int deletando = rand() % tamanho(listaEntregadores);
+        if(entregadorAtual == retornaElemento(listaEntregadores, deletando)){
+            entregadorAtual = entregadorAtual->proximo;
+        }
+        TElementoC<Entregador>* aSerDeletado = retornaElemento(listaEntregadores, deletando);
+        std::cout << aSerDeletado->conteudo.nome << " se demitiu!\n";
+        removeElementoPos(listaEntregadores, deletando);
+        imprimeLista(listaEntregadores);
+    }
 }
 
 TElementoC<Entregador>* selecionaEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
@@ -41,22 +50,51 @@ bool enviaEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregad
     return false;
 }
 
-void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &listaPedidos){
+void entregaPedido(TListaDE<Pedido> &pedidosPendentes, TListaDE<Pedido> &pedidosConcluidos, TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
+    if(tamanho(pedidosPendentes) > 0){
+        TElementoDE<Pedido>* pedido = retornaElemento(pedidosPendentes, 0);
+        if(!pedido->conteudo.tempoPreparo){
+            std::cout << "Pedido Finalizado: " << pedido->conteudo.alimento << " + " << pedido->conteudo.bebida << ": ";
+            bool enviou = enviaEntregador(listaEntregadores, entregadorAtual);
+            if(enviou){
+                Pedido temp = retornaElemento(pedidosPendentes, 0)->conteudo;
+                insereElementoFinal(pedidosConcluidos, temp);
+                removeElementoComeco(pedidosPendentes);
+                std::cout << "Entregue a " << entregadorAtual->conteudo.nome << "\n";
+            } else {
+                std::cout << "Nao ha entregadores disponiveis.\n";
+            }
+        }
+    }
+}
+
+void decrementaTempoEntregadores(TListaC<Entregador> &lista){
+    TElementoC<Entregador>* nav = lista.primeiro;
+    if(nav->conteudo.tempoRestante){ nav->conteudo.tempoRestante--; }
+    for(nav = lista.primeiro->proximo; nav != lista.primeiro; nav = nav->proximo){
+        if(nav->conteudo.tempoRestante){
+            nav->conteudo.tempoRestante--;
+        }
+    }
+    std::cout << "\n";
+}
+
+void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &pedidosPendentes){
     TElemento<Item>* alimento = retornaElemento(cardapio, rand() % 6);
     TElemento<Item>* bebida = retornaElemento(cardapio, (rand() % 6) + 6);
-    insereElementoFinal(listaPedidos, {alimento->conteudo.nome, bebida->conteudo.nome, alimento->conteudo.preco + bebida->conteudo.preco, 5});
+    insereElementoFinal(pedidosPendentes, {alimento->conteudo.nome, bebida->conteudo.nome, alimento->conteudo.preco + bebida->conteudo.preco, 5});
     std::cout << "Novo Pedido! \n" << "Alimento: " << alimento->conteudo.nome << " | Bebida: " << bebida->conteudo.nome << " | Preco: " << alimento->conteudo.preco + bebida->conteudo.preco << ". \n";
 }
 
-void decrementaTempoPedidos(TListaDE<Pedido> &listaPedidos){
-    if(listaPedidos.primeiro == NULL){
+void decrementaTempoPedidos(TListaDE<Pedido> &pedidosPendentes){
+    if(pedidosPendentes.primeiro == NULL){
         return;
     }
-    for(TElementoDE<Pedido>* nav = listaPedidos.primeiro; nav != NULL; nav = nav->proximo){
+    for(TElementoDE<Pedido>* nav = pedidosPendentes.primeiro; nav != NULL; nav = nav->proximo){
         if(nav->conteudo.tempoPreparo){
             nav->conteudo.tempoPreparo--;
         }
     }
 }
 
-#endif#pragma once
+#endif

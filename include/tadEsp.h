@@ -9,9 +9,9 @@ struct Item{
     double preco;
 };
 
-struct Pedido{ //TODO: implementar nome, endereço e tempo estimado
+struct Pedido{ //TODO: implementar nome, endereï¿½o e tempo estimado
     /*const char* nome;
-    const char* endereço;
+    const char* endereÃ§o;
     int tempoEstimado; */
     const char* alimento;
     const char* bebida;
@@ -39,7 +39,7 @@ void preencheCardapio(TListaEnc<Item>& lista){
     insereElementoFinal(lista, {"Agua com Gas", 3.0});  
 }
 
-void preencheListaEntregadores(TListaC<Entregador> &lista, int tamanho){
+void preencheListaEntregadores(TListaC<Entregador> &lista, int tamanho = 5){
     const char* nomes[10] = {"Marcelo", "Joao", "Rudson", "Marco", "Davi", "Carlos", "Ricardo", "Douglas", "Pedro", "Mauricio"};
     for(int i = 0; i < tamanho; i++){
         insereElementoFinal(lista, {nomes[i % 10], 0});
@@ -63,13 +63,13 @@ void imprimeLista(TListaC<Entregador> &lista){
     }
 }
 
-void imprimeLista(TListaEnc<Pedido> &lista){
+void imprimeLista(TListaDE<Pedido> &lista){
 	if(lista.primeiro == NULL){
 		std::cerr << "Lista de Pedidos Vazia.\n";
 	} else {
         std::cout << "Imprimindo Lista de Pedidos \n";
 		int contador = 0;
-        for(TElemento<Pedido>* nav = lista.primeiro; nav != NULL; nav = nav->proximo){
+        for(TElementoDE<Pedido>* nav = lista.primeiro; nav != NULL; nav = nav->proximo){
             std::cout << "Elemento[" << contador << "] Alimento: " << nav->conteudo.alimento << " | Bebida: " << nav->conteudo.bebida <<  " | Preco: " << nav->conteudo.preco << ". Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
             contador++;
         }
