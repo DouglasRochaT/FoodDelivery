@@ -2,6 +2,7 @@
 #define TADESP_H
 
 #include "listEnc.h"
+#include "consts.h"
 #include <iostream>
 
 struct Item{
@@ -10,8 +11,9 @@ struct Item{
 };
 
 struct Pedido{ //TODO: implementar nome, endere�o e tempo estimado
-    /*const char* nome;
-    const char* endereço; */
+    const char* nome;
+    const char* endereco;
+    std::string hora;
     const char* alimento;
     const char* bebida;
     double preco;
@@ -40,9 +42,9 @@ void preencheCardapio(TListaEnc<Item>& lista){
 }
 
 void preencheListaEntregadores(TListaC<Entregador> &lista, int tamanho = 5){
-    const char* nomes[10] = {"Marcelo", "Joao", "Rudson", "Marco", "Davi", "Carlos", "Ricardo", "Douglas", "Pedro", "Mauricio"};
     for(int i = 0; i < tamanho; i++){
-        insereElementoFinal(lista, {nomes[i % 10], 0});
+        int randIndex = rand() % 1068;
+        insereElementoFinal(lista, {nomes[randIndex], 0});
     }
 }
 
@@ -50,7 +52,7 @@ void imprimeLista(TListaC<Entregador> &lista){
     if(lista.primeiro == NULL){
         std::cerr << "Lista de Pedidos Vazia.\n";
     } else {
-        std::cout << "Imprimindo Lista de Pedidos \n";
+        std::cout << "Imprimindo Lista de Entregadores \n";
         int contador = 0;
         TElementoC<Entregador>* nav = lista.primeiro;
         std::cout << "Entregador[" << contador << "]: " << nav->conteudo.nome << ": addt: " << nav << ", proximo: " << nav->proximo << "\n";
@@ -61,6 +63,7 @@ void imprimeLista(TListaC<Entregador> &lista){
             contador++;
         }
     }
+    std::cout << "\n";
 }
 
 void imprimeLista(TListaDE<Pedido> &lista){
@@ -74,6 +77,7 @@ void imprimeLista(TListaDE<Pedido> &lista){
             contador++;
         }
     }
+    std::cout << "\n";
 }
 
 void imprimeLista(TListaEnc<Item> &lista){
@@ -87,6 +91,7 @@ void imprimeLista(TListaEnc<Item> &lista){
 		std::cout << "Elemento[" << index << "] Nome: " << nav->conteudo.nome << " | Preco: " << nav->conteudo.preco << ". Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
 		index++;
 	}
+    std::cout << "\n";
 }
 
 #endif
