@@ -18,7 +18,7 @@ void inicializaLista(TListaEnc<type> &lista){
 }
 
 template<class type>
-int tamanho(TListaEnc<type> &lista){
+int retornaTamanho(TListaEnc<type> &lista){
 	int contador = 0;
 	TElemento<type>* nav = lista.primeiro;
 	if(nav == NULL){
@@ -33,7 +33,7 @@ int tamanho(TListaEnc<type> &lista){
 }
 
 template<class type>
-TElemento<type>* criaElemento(TListaEnc<type> &lista, type conteudo, TElemento<type>* ponteiroApos = NULL){
+TElemento<type>* criaElemento(type conteudo, TElemento<type>* ponteiroApos = NULL){
 	TElemento<type>* elemento = new TElemento<type>;
 	elemento->conteudo = conteudo;
 	elemento->proximo = ponteiroApos;
@@ -43,13 +43,13 @@ TElemento<type>* criaElemento(TListaEnc<type> &lista, type conteudo, TElemento<t
 template<class type>
 void insereElementoFinal(TListaEnc<type> &lista, type conteudo){
 	if(lista.primeiro == NULL){
-		lista.primeiro = criaElemento(lista, conteudo);
+		lista.primeiro = criaElemento(conteudo);
 	} else {
 		TElemento<type>* nav = lista.primeiro;
 		while(nav->proximo != NULL){
 			nav = nav->proximo;
 		}
-		nav->proximo = criaElemento(lista, conteudo);
+		nav->proximo = criaElemento(conteudo);
 	}
 }
 
@@ -65,67 +65,60 @@ void insereElementoComeco(TListaEnc<type> &lista, type conteudo){
 
 template<class type>
 bool insereElementoPos(TListaEnc<type> &lista, type conteudo, int pos){
-	if(pos > coletatamanho(lista) || pos < 0){
-		return false;
-	} else {
-		TElemento<type>* nav = lista.primeiro;
-		int contador = 0;
-		while(contador < pos - 1){
-			nav = nav->proximo;
-			contador++;
-		}
-		if(pos == 0){
-			if(nav->proximo == NULL){
-				lista.primeiro = criaElemento(lista, conteudo);
-			} else {
-				TElemento<type>* nav2 = lista.primeiro;
-				lista.primeiro = criaElemento(lista, conteudo, nav2);
-			}
-		} else {
-			if(nav->proximo == NULL){
-				nav->proximo = criaElemento(lista, conteudo);
-			} else {
-				TElemento<type>* nav2 = nav->proximo;
-				nav->proximo = criaElemento(lista, conteudo, nav2);
-			}
-		}
+    if(pos == 0){
+        insereListaInicio(lista, conteudo);
 		return true;
-	}
+    }else{
+        TElemento<type>* novo = criaElemento(conteudo);
+        TElemento<type>* nav = lista.inicio;
+		int contador = 0;
+        while(contador < pos - 1 && nav != NULL){
+            nav = nav->proximo;
+            contador++;
+        }
+        if(nav != NULL){
+            novo->proximo = nav->proximo;
+            nav->proximo = novo;
+			return true;
+        }else{
+            std::cerr << "Posição passada maior que o tamanho da lista";
+			return false;
+        }
+
+    }
 }
 
 template<class type>
 bool removeElementoFinal(TListaEnc<type> &lista){
 	if(lista.primeiro == NULL){
 		return false;
-	}
-	TElemento<type>* navPrev = lista.primeiro;
-	if(navPrev->proximo == NULL){
-		delete navPrev;
+	} else if(lista.primeiro->proximo == NULL){
+		delete lista.primeiro;
 		lista.primeiro = NULL;
 		return true;
 	}
-	TElemento<type>* nav = navPrev->proximo;
+	TElemento<type>* nav = lista.primeiro->proximo;
+	TElemento<type>* navPrev = lista.primeiro;
 	while(nav->proximo != NULL){
 		navPrev = nav;
 		nav = navPrev->proximo;
 	}
-	delete nav;
 	navPrev->proximo = NULL;
+	delete nav;
 	return true;
 }
 
 template<class type>
 bool removeElementoComeco(TListaEnc<type> &lista){
 	if(lista.primeiro == NULL){
-		throw "Nao foi possivel deletar, a lista esta vazia.";
+		std::cerr << "Nao foi possivel deletar, a lista esta vazia.";
 		return false;
-	} else if(tamanho(lista) == 1){
+	} else if(retornaTamanho(lista) == 1){
 		delete lista.primeiro;
 		lista.primeiro = NULL;
 		return true;
 	} else {
-		TElemento<type>* segundo = lista.primeiro;
-		segundo = segundo->proximo;
+		TElemento<type>* segundo = lista.primeiro->proximo;
 		delete lista.primeiro;
 		lista.primeiro = segundo;
 		return true;
@@ -134,9 +127,9 @@ bool removeElementoComeco(TListaEnc<type> &lista){
 
 template<class type>
 bool removeElementoPos(TListaEnc<type> &lista, int pos){
-	if(pos > tamanho(lista) || pos < 0 || lista.primeiro == NULL){
+	if(pos > retornaTamanho(lista) || pos < 0 || lista.primeiro == NULL){
 		return false;
-	} else if(pos == 0 && tamanho(lista) == 1){
+	} else if(pos == 0 && retornaTamanho(lista) == 1){
 		delete lista.primeiro;
 		lista.primeiro = NULL;
 	} else {
@@ -155,7 +148,7 @@ bool removeElementoPos(TListaEnc<type> &lista, int pos){
 }
 
 template<class type>
-bool estaContido(TListaEnc<type> &lista, type elemento){
+bool verificaExistencia(TListaEnc<type> &lista, type elemento){
 	TElemento<type>* nav = lista.primeiro;
 	while(nav != NULL){
 		if(nav->conteudo == elemento){
@@ -167,7 +160,7 @@ bool estaContido(TListaEnc<type> &lista, type elemento){
 }
 
 template<class type>
-int procura(TListaEnc<type> &lista, type elemento){
+int retornaPosicao(TListaEnc<type> &lista, type elemento){
 	TElemento<type>* nav = lista.primeiro;
 	int contador = 0;
 	while(nav != NULL){
@@ -182,7 +175,7 @@ int procura(TListaEnc<type> &lista, type elemento){
 
 template<class type>
 TElemento<type>* retornaElemento(TListaEnc<type> &lista, int pos){
-	if(pos < 0 || pos > tamanho(lista)){
+	if(pos < 0 || pos > retornaTamanho(lista)){
 		return nullptr;
 	} else {
 		TElemento<type>* nav = lista.primeiro;
@@ -202,19 +195,11 @@ void imprimeLista(TListaEnc<type> &lista){
 		return;
 	}
 	TElemento<type>* nav = lista.primeiro;
-	int index = 0;
-	while(nav->proximo != NULL){
-		std::cout << "Elemento " << index << ": &TElemento: " << nav << ", TElemento->conteudo: " << nav->conteudo << ", TElemento->proximo: " << nav->proximo << ";\n";
+	int contador = 0;
+	while(nav != NULL){
+		std::cout << "Elemento " << contador << ": &TElemento: " << nav << ", TElemento->conteudo: " << nav->conteudo << ", TElemento->proximo: " << nav->proximo << ";\n";
 		nav = nav->proximo;
-		index++;
+		contador++;
 	}
-	std::cout << "Elemento " << index << ": &TElemento: " << nav << ", TElemento->conteudo: " << nav->conteudo << ", TElemento->proximo: " << nav->proximo << ";\n";
-
-	nav = lista.primeiro;
-	while(nav->proximo != NULL){
-		std::cout << nav->conteudo << ", ";
-		nav = nav->proximo;
-	}
-	std::cout << nav->conteudo << ".\n";
 }
 #endif

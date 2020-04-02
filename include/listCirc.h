@@ -20,7 +20,7 @@ void inicializaLista(TListaC<type> &lista){
 }
 
 template<class type>
-int tamanho(TListaC<type> &lista){
+int retornaTamanho(TListaC<type> &lista){
 	if(lista.primeiro == NULL){
 		return 0;
 	} else {
@@ -57,22 +57,20 @@ bool insereElementoComeco(TListaC<type> &lista, type novoElemento){
 
 template<class type>
 bool insereElementoPos(TListaC<type>& lista, type novoElemento, int pos){
-	if(pos > tamanho(lista) || pos < 0){
+	if(pos > retornaTamanho(lista) || pos < 0){
 		return false;
-	} else if(pos == 0) {
+	} else if(pos == 0){
 		return insereElementoComeco(lista, novoElemento);
 	} else {
 		TElementoC<type>* nav = lista.primeiro;
-		TElementoC<type>* navAnt = lista.primeiro;
 		int contador = 0;
 		while(contador < pos){
-			navAnt = nav;
 			nav = nav->proximo;
 			contador++;
 		}
 		TElementoC<type>* novo = new TElementoC<type>;
 		novo->conteudo = novoElemento;
-		navAnt->proximo = novo;
+		novo->proximo = nav->proximo;
 		novo->proximo = nav;
 		return true;
 	}
@@ -80,12 +78,12 @@ bool insereElementoPos(TListaC<type>& lista, type novoElemento, int pos){
 
 template<class type>
 bool insereElementoFinal(TListaC<type> &lista, type novoElemento){
-	return insereElementoPos(lista, novoElemento, tamanho(lista));
+	return insereElementoPos(lista, novoElemento, retornaTamanho(lista));
 }
 
 template<class type>
 bool removeElementoPos(TListaC<type> &lista, int pos){
-	if(lista.primeiro == NULL || pos >= tamanho(lista)){
+	if(lista.primeiro == NULL || pos >= retornaTamanho(lista)){
 		return false;
 	} else if(pos == 0 && lista.primeiro->proximo == lista.primeiro){
 		TElementoC<type>* nav = lista.primeiro;
@@ -111,14 +109,14 @@ bool removeElementoPos(TListaC<type> &lista, int pos){
 
 template<class type>
 bool removeElementoFinal(TListaC<type> &lista){
-	return removeElementoPos(lista, tamanho(lista) - 1);
+	return removeElementoPos(lista, retornaTamanho(lista) - 1);
 }
 
 template<class type>
 bool removeElementoComeco(TListaC<type> &lista){
 	if(lista.primeiro == NULL){
 		return false;
-	} else if(tamanho(lista) == 1){
+	} else if(retornaTamanho(lista) == 1){
 		delete lista.primeiro;
 		lista.primeiro = NULL;
 		return true;
@@ -127,8 +125,7 @@ bool removeElementoComeco(TListaC<type> &lista){
 		while(ultimo->proximo != lista.primeiro){
 			ultimo = ultimo->proximo;
 		}
-		TElementoC<type>* segundo = lista.primeiro;
-		segundo = segundo->proximo;
+		TElementoC<type>* segundo = lista.primeiro->proximo;
 		delete lista.primeiro;
 		ultimo->proximo = segundo;
 		lista.primeiro = segundo;
@@ -137,7 +134,7 @@ bool removeElementoComeco(TListaC<type> &lista){
 }
 
 template<class type>
-int procura(TListaC<type> &lista, int elemento){
+int retornaPosicao(TListaC<type> &lista, int elemento){
 	TElementoC<type>* nav = lista.primeiro;
 	int contador = 0;
 	while(nav->proximo != lista.primeiro){
@@ -155,13 +152,13 @@ int procura(TListaC<type> &lista, int elemento){
 }
 
 template<class type>
-bool estaContido(TListaC<type> &lista, type elemento){
-	return procura(lista, elemento) >= 0;
+bool verificaExistencia(TListaC<type> &lista, type elemento){
+	return retornaPosicao(lista, elemento) >= 0;
 }
 
 template<class type>
 TElementoC<type>* retornaElemento(TListaC<type> &lista, int pos){
-	if(pos >= tamanho(lista)){
+	if(pos >= retornaTamanho(lista)){
 		//throw "Index out of range";
 		return nullptr;
 	} else {
@@ -184,24 +181,15 @@ TElementoC<type>* retornaElemento(TListaC<type> &lista, int pos){
 template<class type>
 void imprimeLista(TListaC<type> &lista){
 	if(lista.primeiro == NULL){
-		std::cout << "Lista vazia.\n";
+		std::cerr << "Lista vazia.\n";
 	} else {
-		//print detalhado de cada item
 		TElementoC<type>* nav = lista.primeiro;
 		int contador = 0;
-		while(nav->proximo != lista.primeiro){
-			std::cout << "lista[" << contador << "](valor: " << nav->conteudo << ", endereco: " << nav << ", proximo: " << nav->proximo << ";\n";
+		while(nav != lista.primeiro || contador == 0){
+			std::cout << "Lista[" << contador << "](valor: " << nav->conteudo << ", endereco: " << nav << ", proximo: " << nav->proximo << ";\n";
 			contador++;
 			nav = nav->proximo;
 		}
-		std::cout << "lista[" << contador << "](valor: " << nav->conteudo << ", endereco: " << nav << ", proximo: " << nav->proximo << ";\n";
-		//print dos conteudos de cada item
-		nav = lista.primeiro;
-		while(nav->proximo != lista.primeiro){
-			std::cout << nav->conteudo << ", ";
-			nav = nav->proximo;
-		}
-		std::cout << nav->conteudo << ".\n";
 	}
 }
 #endif

@@ -2,6 +2,7 @@
 #define DELIVERYFUNCTIONS_H
 
 #include <iostream>
+#include <string.h>
 #include "listCirc.h"
 #include "listDEnc.h"
 #include "listEnc.h"
@@ -29,8 +30,8 @@ void contrataOuDemiteEntregador(TListaC<Entregador> &listaEntregadores, TElement
         insereElementoFinal(listaEntregadores, {nomes[indexNome], 0});
         std::cout << "Novo Entregador: " << nomes[indexNome] << "\n";
     }
-    if(checagemEventoEntregador == 1 && tamanho(listaEntregadores) > 1){
-        int deletando = rand() % tamanho(listaEntregadores);
+    if(checagemEventoEntregador == 1 && retornaTamanho(listaEntregadores) > 1){
+        int deletando = rand() % retornaTamanho(listaEntregadores);
         if(entregadorAtual == retornaElemento(listaEntregadores, deletando)){
             entregadorAtual = entregadorAtual->proximo;
         }
@@ -65,7 +66,7 @@ bool enviaEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregad
 }
 
 void entregaPedido(TListaDE<Pedido> &pedidosPendentes, TListaDE<Pedido> &pedidosConcluidos, TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
-    if(tamanho(pedidosPendentes) > 0){
+    if(retornaTamanho(pedidosPendentes) > 0){
         TElementoDE<Pedido>* pedido = retornaElemento(pedidosPendentes, 0);
 
         if(!pedido->conteudo.tempoPreparo){
@@ -95,7 +96,7 @@ void decrementaTempoEntregadores(TListaC<Entregador> &lista){
 }
 
 int estimaTempo(TListaDE<Pedido> &pedidosPendentes){
-    TElementoDE<Pedido>* nav = retornaElemento(pedidosPendentes, tamanho(pedidosPendentes) - 1);
+    TElementoDE<Pedido>* nav = retornaElemento(pedidosPendentes, retornaTamanho(pedidosPendentes) - 1);
     int tempoEstimado = 5;
     for(nav; nav != NULL; nav = nav->anterior){
         tempoEstimado += nav->conteudo.tempoPreparo;
@@ -155,9 +156,9 @@ void fechaCaixa(TListaDE<Pedido> pedidosConcluidos){
     if(abs(primeiraContagem == segundaContagem) < 0.001){
         std::cout << "O caixa foi fechado corretamente,\n";
         std::cout << "Foi arrecadado o valor de " << primeiraContagem << " reais. \n";
-        std::cout << "Foram realizados " << tamanho(pedidosConcluidos) << " pedidos.\n";
+        std::cout << "Foram realizados " << retornaTamanho(pedidosConcluidos) << " pedidos.\n";
     } else {
-        std::cerr << " Foi encontrada uma divegência de " << abs(primeiraContagem - segundaContagem) << " reais no fechamento de caixa!";
+        std::cerr << " Foi encontrada uma divegï¿½ncia de " << abs(primeiraContagem - segundaContagem) << " reais no fechamento de caixa!";
     }
 }
 

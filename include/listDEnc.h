@@ -16,7 +16,7 @@ struct TListaDE {
 };
 
 template<class type>
-int tamanho(TListaDE<type>& lista){
+int retornaTamanho(TListaDE<type>& lista){
 	TElementoDE<type>* nav = lista.primeiro;
 	int contador = 0;
 	while(nav != NULL){
@@ -52,7 +52,7 @@ void insereElementoFinal(TListaDE<type>& lista, type elemento){
 template<class type>
 void insereElementoComeco(TListaDE<type>& lista, type elemento){
 	TElementoDE<type>* novo = new TElementoDE<type>;
-	if(tamanho(lista)){
+	if(retornaTamanho(lista)){
 		TElementoDE<type>* segundo = lista.primeiro;
 		segundo->anterior = novo;
 	}
@@ -64,12 +64,12 @@ void insereElementoComeco(TListaDE<type>& lista, type elemento){
 
 template<class type>
 bool insereElementoPos(TListaDE<type>& lista, type elemento, int pos){
-	if(pos < 0 || pos > tamanho(lista)){
+	if(pos < 0 || pos > retornaTamanho(lista)){
 		return false;
 	} else if(pos == 0){
 		insereElementoComeco(lista, elemento);
 		return true;
-	} else if(pos == tamanho(lista)){
+	} else if(pos == retornaTamanho(lista)){
 		insereElementoFinal(lista, elemento);
 		return true;
 	} else {
@@ -94,7 +94,7 @@ template<class type>
 bool removeElementoComeco(TListaDE<type> &lista){
 	if(lista.primeiro == NULL){
 		return false;
-	} else if(tamanho(lista) == 1){
+	} else if(retornaTamanho(lista) == 1){
 		TElementoDE<type>* nav = lista.primeiro;
 		delete nav;
 		lista.primeiro = NULL;
@@ -112,19 +112,17 @@ template<class type>
 bool removeElementoFinal(TListaDE<type> &lista){
 	if(lista.primeiro == NULL){
 		return false;
-	} else if(tamanho(lista) == 1){
+	} else if(retornaTamanho(lista) == 1){
 		TElementoDE<type>* nav = lista.primeiro;
 		delete nav;
 		lista.primeiro = NULL;
 		return true;
 	} else {
-		TElementoDE<type>* navAnt = lista.primeiro;
-		TElementoDE<type>* nav = navAnt->proximo;
+		TElementoDE<type>* nav = lista.primeiro->proximo;
 		while(nav->proximo != NULL){
-			navAnt = nav;
 			nav = nav->proximo;
 		}
-		navAnt->proximo = NULL;
+		nav->anterior = NULL;
 		delete nav;
 		return true;
 	}
@@ -132,7 +130,7 @@ bool removeElementoFinal(TListaDE<type> &lista){
 
 template<class type>
 bool removeElementoPos(TListaDE<type> &lista, int pos){
-	if(lista.primeiro == NULL || pos >= tamanho(lista)){
+	if(lista.primeiro == NULL || pos >= retornaTamanho(lista)){
 		return false;
 	} else if(pos == 0){
 		removeElementoComeco(lista);
@@ -158,7 +156,7 @@ bool removeElementoPos(TListaDE<type> &lista, int pos){
 
 template<class type>
 TElementoDE<type>* retornaElemento(TListaDE<type> &lista, int pos){
-	if(pos >= tamanho(lista)){
+	if(pos >= retornaTamanho(lista)){
 		return NULL;
 	} else {
 		TElementoDE<type>* nav = lista.primeiro;
@@ -172,7 +170,7 @@ TElementoDE<type>* retornaElemento(TListaDE<type> &lista, int pos){
 }
 
 template<class type>
-int procura(TListaDE<type> &lista, type elemento){
+int retonaPosicao(TListaDE<type> &lista, type elemento){
 	TElementoDE<type>* nav = lista.primeiro;
 	int contador = 0;
 	while(nav != NULL){
@@ -186,7 +184,7 @@ int procura(TListaDE<type> &lista, type elemento){
 }
 
 template<class type>
-bool estaContido(TListaDE<type> &lista, type elemento){
+bool verificaExistencia(TListaDE<type> &lista, type elemento){
 	TElementoDE<type>* nav = lista.primeiro;
 	while(nav != NULL){
 		if(nav->conteudo == elemento){
@@ -204,20 +202,11 @@ void imprimeLista(TListaDE<type> &lista){
 	} else {
 		TElementoDE<type>* nav = lista.primeiro;
 		int contador = 0;
-		while(nav->proximo != NULL){
-			std::cout << "lista[" << contador << "] = conteudo: " << nav->conteudo << ", ante: " << nav->anterior << ", addr: " << nav << ", prox: " << nav->proximo << ";\n";
+		while(nav != NULL){
+			std::cout << "Lista[" << contador << "] = conteudo: " << nav->conteudo << ", ante: " << nav->anterior << ", addr: " << nav << ", prox: " << nav->proximo << ";\n";
 			nav = nav->proximo;
 			contador++;
 		}
-		std::cout << "lista[" << contador << "] = conteudo: " << nav->conteudo << ", ante: " << nav->anterior << ", addr: " << nav << ", prox: " << nav->proximo << ";\n";
-
-		nav = lista.primeiro;
-		while(nav->proximo != NULL){
-			std::cout << nav->conteudo << ", ";
-			nav = nav->proximo;
-			contador++;
-		}
-		std::cout << nav->conteudo << ".\n";
 	}
 }
 #endif

@@ -31,7 +31,7 @@ int main(){
     /*
     * O período de atendimento do restaurante é 5 horas. 
     */
-    for(int tempoAtual = 0; tempoAtual < 300 || tamanho(pedidosPendentes) > 0; tempoAtual++){
+    for(int tempoAtual = 0; tempoAtual < 300 || retornaTamanho(pedidosPendentes) > 0; tempoAtual++){
         std::string horario = retornaHorario(tempoAtual);
         std::cout << horario << "\n";
         

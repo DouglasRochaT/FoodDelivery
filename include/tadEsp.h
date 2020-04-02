@@ -10,7 +10,7 @@ struct Item{
     double preco;
 };
 
-struct Pedido{ //TODO: implementar nome, endere�o e tempo estimado
+struct Pedido{ //TODO: implementar nome, endereço e tempo estimado
     const char* nome;
     const char* endereco;
     std::string hora;
