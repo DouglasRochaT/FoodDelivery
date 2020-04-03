@@ -71,7 +71,7 @@ bool insereElementoPos(TListaC<type>& lista, type novoElemento, int pos){
 		TElementoC<type>* novo = new TElementoC<type>;
 		novo->conteudo = novoElemento;
 		novo->proximo = nav->proximo;
-		novo->proximo = nav;
+		nav->proximo = novo;
 		return true;
 	}
 }

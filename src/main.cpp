@@ -24,17 +24,17 @@ int main(){
     inicializaLista(listaEntregadores);
     preencheListaEntregadores(listaEntregadores, 5);
     imprimeLista(listaEntregadores);
-    
+
     int numeroDeCozinheiros = 3;
     TElementoC<Entregador>* entregadorAtual = listaEntregadores.primeiro;
 
     /*
-    * O período de atendimento do restaurante é 5 horas. 
+    * O período de atendimento do restaurante é 5 horas.
     */
     for(int tempoAtual = 0; tempoAtual < 300 || retornaTamanho(pedidosPendentes) > 0; tempoAtual++){
         std::string horario = retornaHorario(tempoAtual);
         std::cout << horario << "\n";
-        
+
         decrementaTempoPedidos(pedidosPendentes, numeroDeCozinheiros);
 
         //A cada 2 minutos, uma nova compra é efetuada.
@@ -50,8 +50,8 @@ int main(){
     std::cout << "\n\n\n";
     imprimeLista(listaEntregadores);
     imprimeLista(pedidosPendentes);
-    imprimeLista(pedidosConcluidos);
-    fechaCaixa(pedidosConcluidos);    
+    //imprimeLista(pedidosConcluidos);
+    fechaCaixa(pedidosConcluidos);
 }
 
 //Calculo de caixa, dupla verifiação, etc...

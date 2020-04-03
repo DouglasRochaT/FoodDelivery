@@ -65,27 +65,27 @@ void insereElementoComeco(TListaEnc<type> &lista, type conteudo){
 
 template<class type>
 bool insereElementoPos(TListaEnc<type> &lista, type conteudo, int pos){
-    if(pos == 0){
-        insereListaInicio(lista, conteudo);
+	if(pos == 0){
+		insereListaInicio(lista, conteudo);
 		return true;
-    }else{
-        TElemento<type>* novo = criaElemento(conteudo);
-        TElemento<type>* nav = lista.inicio;
+	} else{
+		TElemento<type>* novo = criaElemento(conteudo);
+		TElemento<type>* nav = lista.inicio;
 		int contador = 0;
-        while(contador < pos - 1 && nav != NULL){
-            nav = nav->proximo;
-            contador++;
-        }
-        if(nav != NULL){
-            novo->proximo = nav->proximo;
-            nav->proximo = novo;
+		while(contador < pos - 1 && nav != NULL){
+			nav = nav->proximo;
+			contador++;
+		}
+		if(nav != NULL){
+			novo->proximo = nav->proximo;
+			nav->proximo = novo;
 			return true;
-        }else{
-            std::cerr << "PosiÃ§Ã£o passada maior que o tamanho da lista";
+		} else{
+			std::cerr << "Posição passada maior que o tamanho da lista";
 			return false;
-        }
+		}
 
-    }
+	}
 }
 
 template<class type>

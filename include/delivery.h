@@ -27,7 +27,7 @@ void contrataOuDemiteEntregador(TListaC<Entregador> &listaEntregadores, TElement
     int checagemEventoEntregador = rand() % 150;
     if(checagemEventoEntregador == 0){
         int indexNome = rand() % 1068;
-        insereElementoFinal(listaEntregadores, {nomes[indexNome], 0});
+        insereElementoFinal(listaEntregadores, {nomes[indexNome], 1, 0});
         std::cout << "Novo Entregador: " << nomes[indexNome] << "\n";
     }
     if(checagemEventoEntregador == 1 && retornaTamanho(listaEntregadores) > 1){
@@ -45,11 +45,11 @@ void contrataOuDemiteEntregador(TListaC<Entregador> &listaEntregadores, TElement
 TElementoC<Entregador>* selecionaEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
     TElementoC<Entregador>* ultimo = entregadorAtual;
     for(entregadorAtual = entregadorAtual->proximo; entregadorAtual != ultimo; entregadorAtual = entregadorAtual->proximo){
-        if(!entregadorAtual->conteudo.tempoRestante){
+        if(!entregadorAtual->conteudo.tempoRestante && entregadorAtual->conteudo.trabalhaHoje){
             return entregadorAtual;
         }
     }
-    if(!ultimo->conteudo.tempoRestante){
+    if(!ultimo->conteudo.tempoRestante && entregadorAtual->conteudo.trabalhaHoje){
         entregadorAtual = ultimo;
         return entregadorAtual;
     }
@@ -110,17 +110,17 @@ void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &pedidosPendentes, st
     TElemento<Item>* alimento = retornaElemento(cardapio, rand() % 6);
     TElemento<Item>* bebida = retornaElemento(cardapio, (rand() % 6) + 6);
     int tempoEstimado = estimaTempo(pedidosPendentes);
-    insereElementoFinal(pedidosPendentes, 
-    {
-        nomeDeEntrega,
-        enderecoDeEntrega,
-        horario,
-        alimento->conteudo.nome,
-        bebida->conteudo.nome,
-        alimento->conteudo.preco + bebida->conteudo.preco,
-        tempoEstimado,
-        5
-    });
+    insereElementoFinal(pedidosPendentes,
+        {
+            nomeDeEntrega,
+            enderecoDeEntrega,
+            horario,
+            alimento->conteudo.nome,
+            bebida->conteudo.nome,
+            alimento->conteudo.preco + bebida->conteudo.preco,
+            tempoEstimado,
+            5
+        });
     std::cout << "Novo Pedido! \n" << "Alimento: " << alimento->conteudo.nome << " | Bebida: " << bebida->conteudo.nome << " | Preco: " << alimento->conteudo.preco + bebida->conteudo.preco << ". \n";
     std::cout << "Encomendado em " << horario << ", Previsao de preparo: " << tempoEstimado << " minutos.\n";
     std::cout << "Entrega em " << enderecoDeEntrega << " para " << nomeDeEntrega << "\n";
@@ -158,7 +158,7 @@ void fechaCaixa(TListaDE<Pedido> pedidosConcluidos){
         std::cout << "Foi arrecadado o valor de " << primeiraContagem << " reais. \n";
         std::cout << "Foram realizados " << retornaTamanho(pedidosConcluidos) << " pedidos.\n";
     } else {
-        std::cerr << " Foi encontrada uma diveg�ncia de " << abs(primeiraContagem - segundaContagem) << " reais no fechamento de caixa!";
+        std::cerr << " Foi encontrada uma divegencia de " << abs(primeiraContagem - segundaContagem) << " reais no fechamento de caixa!";
     }
 }
 
