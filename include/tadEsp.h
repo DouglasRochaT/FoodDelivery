@@ -6,25 +6,25 @@
 #include <iostream>
 
 struct Item{
-    const char* nome;
-    double preco;
+    const char* nome;       //Nome do item;
+    double preco;           //Preço do item;
 };
 
-struct Pedido{ //TODO: implementar nome, endereço e tempo estimado
-    const char* nome;
-    const char* endereco;
-    std::string hora;
-    const char* alimento;
-    const char* bebida;
-    double preco;
-    int tempoEstimado;
-    int tempoPreparo;
+struct Pedido{
+    const char* nome;       //Nome do cliente;
+    const char* endereco;   //Endereço de entrega;
+    const char* hora;       //Horario em que o pedido foi solicitado;
+    const char* alimento;   //Alimento escolhido;
+    const char* bebida;     //Bebida escolhida;
+    double preco;           //Preço total do pedido;
+    int tempoEstimado;      //Registro do tempo estimado;
+    int tempoPreparo;       //Tempo de preparo do pedido;
 };
 
 struct Entregador {
-    const char* nome;
-    bool trabalhaHoje;
-    int tempoRestante;
+    const char* nome;       //Nome do entregador;
+    bool trabalhaHoje;      //Indica se o trabalhador trabalho no dia da simulação;
+    int tempoRestante;      //Tempo restante para a entrega sendo executada;
 };
 
 void preencheCardapio(TListaEnc<Item>& lista){

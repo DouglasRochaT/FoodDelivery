@@ -9,6 +9,7 @@
 #include "tadEsp.h"
 #include "consts.h"
 
+//Formata o horário com base no tempo atual em minutos.
 std::string retornaHorario(int tempoAtual){
     std::string hora = std::to_string(13 + (tempoAtual / 60));
     std::string minuto = std::to_string(tempoAtual % 60);
@@ -19,10 +20,7 @@ std::string retornaHorario(int tempoAtual){
     }
 }
 
-void imprimeHorario(int tempoAtual){
-    std::cout << retornaHorario(tempoAtual) << "\n";
-}
-
+//Define a probabilidade de uma contratação ou demissão de entregadores.
 void contrataOuDemiteEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
     int checagemEventoEntregador = rand() % 150;
     if(checagemEventoEntregador == 0){
@@ -42,6 +40,7 @@ void contrataOuDemiteEntregador(TListaC<Entregador> &listaEntregadores, TElement
     }
 }
 
+//Seleciona o próximo entregador disponível para a entrega.
 TElementoC<Entregador>* selecionaEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
     TElementoC<Entregador>* ultimo = entregadorAtual;
     for(entregadorAtual = entregadorAtual->proximo; entregadorAtual != ultimo; entregadorAtual = entregadorAtual->proximo){
@@ -56,6 +55,7 @@ TElementoC<Entregador>* selecionaEntregador(TListaC<Entregador> &listaEntregador
     return NULL;
 }
 
+//Defíne o tempo de entrega e retorna true caso haja um entregador disponível, caso contrário, false.
 bool enviaEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
     TElementoC<Entregador>* entregador = selecionaEntregador(listaEntregadores, entregadorAtual);
     if(entregador != NULL){
@@ -65,6 +65,7 @@ bool enviaEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregad
     return false;
 }
 
+//Direciona um pedido já concluído para a entrega caso haja entregadores disponíveis.
 void entregaPedido(TListaDE<Pedido> &pedidosPendentes, TListaDE<Pedido> &pedidosConcluidos, TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
     if(retornaTamanho(pedidosPendentes) > 0){
         TElementoDE<Pedido>* pedido = retornaElemento(pedidosPendentes, 0);
@@ -72,7 +73,6 @@ void entregaPedido(TListaDE<Pedido> &pedidosPendentes, TListaDE<Pedido> &pedidos
         if(!pedido->conteudo.tempoPreparo){
             std::cout << "Pedido Finalizado: " << pedido->conteudo.alimento << " + " << pedido->conteudo.bebida << ": ";
             bool enviou = enviaEntregador(listaEntregadores, entregadorAtual);
-
             if(enviou){
                 insereElementoFinal(pedidosConcluidos, pedido->conteudo);
                 removeElementoComeco(pedidosPendentes);
@@ -84,6 +84,7 @@ void entregaPedido(TListaDE<Pedido> &pedidosPendentes, TListaDE<Pedido> &pedidos
     }
 }
 
+//Decrementa o tempo de entrega dos entregadores em operação.
 void decrementaTempoEntregadores(TListaC<Entregador> &lista){
     TElementoC<Entregador>* nav = lista.primeiro;
     if(nav->conteudo.tempoRestante){ nav->conteudo.tempoRestante--; }
@@ -92,9 +93,9 @@ void decrementaTempoEntregadores(TListaC<Entregador> &lista){
             nav->conteudo.tempoRestante--;
         }
     }
-    std::cout << "\n";
 }
 
+//Estima o tempo de conclusão para um novo pedido.
 int estimaTempo(TListaDE<Pedido> &pedidosPendentes){
     TElementoDE<Pedido>* nav = retornaElemento(pedidosPendentes, retornaTamanho(pedidosPendentes) - 1);
     int tempoEstimado = 5;
@@ -104,7 +105,8 @@ int estimaTempo(TListaDE<Pedido> &pedidosPendentes){
     return tempoEstimado;
 }
 
-void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &pedidosPendentes, std::string horario){
+//Cria um novo pedido e o adiciona na lista de pedidos pendentes.
+void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &pedidosPendentes, const char* horario){
     const char* nomeDeEntrega = nomes[rand() % 1068];
     const char* enderecoDeEntrega = ruas[rand() % 135];
     TElemento<Item>* alimento = retornaElemento(cardapio, rand() % 6);
@@ -126,6 +128,7 @@ void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &pedidosPendentes, st
     std::cout << "Entrega em " << enderecoDeEntrega << " para " << nomeDeEntrega << "\n";
 }
 
+//Reduz o tempo de todos os pedidos pendentes na cozinha.
 void decrementaTempoPedidos(TListaDE<Pedido> &pedidosPendentes, int numeroCozinheiros){
     if(pedidosPendentes.primeiro == NULL){
         return;
@@ -141,6 +144,7 @@ void decrementaTempoPedidos(TListaDE<Pedido> &pedidosPendentes, int numeroCozinh
     }
 }
 
+//Dupla verificação, percorre-se a lista do início ao fim e após do fim ao começo. 
 void fechaCaixa(TListaDE<Pedido> pedidosConcluidos){
     TElementoDE<Pedido>* nav = pedidosConcluidos.primeiro;
     TElementoDE<Pedido>* nav2 = pedidosConcluidos.primeiro;
@@ -149,7 +153,6 @@ void fechaCaixa(TListaDE<Pedido> pedidosConcluidos){
         primeiraContagem += nav->conteudo.preco;
         nav2 = nav->anterior;
     }
-    //nav2 = nav2->proximo;
     for(segundaContagem = 0; nav2 != NULL; nav2 = nav2->anterior){
         segundaContagem += nav2->conteudo.preco;
     }

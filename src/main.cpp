@@ -28,16 +28,16 @@ int main(){
     int numeroDeCozinheiros = 3;
     TElementoC<Entregador>* entregadorAtual = listaEntregadores.primeiro;
 
-    /*
-    * O período de atendimento do restaurante é 5 horas.
-    */
+    //O período de atendimento do restaurante é 5 horas (300 minutos),
+    //Você pode fazer o fechamento do caixa após a conclusão/entrega de todos pedidos. 
     for(int tempoAtual = 0; tempoAtual < 300 || retornaTamanho(pedidosPendentes) > 0; tempoAtual++){
-        std::string horario = retornaHorario(tempoAtual);
+        const char* horario = retornaHorario(tempoAtual).c_str();
         std::cout << horario << "\n";
 
         decrementaTempoPedidos(pedidosPendentes, numeroDeCozinheiros);
 
-        //A cada 2 minutos, uma nova compra é efetuada.
+        //A cada 2 minutos, uma nova compra é efetuada,
+        //Após o período de antendimento, nenhum pedido pode ser registrado no aplicativo.
         if(tempoAtual % 2 == 0 && tempoAtual <= 300){
             criaPedido(cardapio, pedidosPendentes, horario);
         }
@@ -45,13 +45,11 @@ int main(){
         entregaPedido(pedidosPendentes, pedidosConcluidos, listaEntregadores, entregadorAtual);
         contrataOuDemiteEntregador(listaEntregadores, entregadorAtual);
         decrementaTempoEntregadores(listaEntregadores);
-        std::cout << "\n--------------------------------------------------------------\n";
+        std::cout << "--------------------------------------------------------------\n";
     }
-    std::cout << "\n\n\n";
+    std::cout << "\n";
     imprimeLista(listaEntregadores);
     imprimeLista(pedidosPendentes);
-    //imprimeLista(pedidosConcluidos);
+    imprimeLista(pedidosConcluidos);
     fechaCaixa(pedidosConcluidos);
 }
-
-//Calculo de caixa, dupla verifiação, etc...
