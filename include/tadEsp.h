@@ -1,7 +1,8 @@
 #ifndef TADESP_H
 #define TADESP_H
 
-#include "listEnc.h"
+#include "listEst.h"
+#include "listCirc.h"
 #include "consts.h"
 #include <iostream>
 
@@ -27,7 +28,7 @@ struct Entregador {
     int tempoRestante;      //Tempo restante para a entrega sendo executada;
 };
 
-void preencheCardapio(TListaEnc<Item>& lista){
+void preencheCardapio(TListaEst<Item, 12>& lista){
     insereElementoFinal(lista, {"Pizza", 20.7});
     insereElementoFinal(lista, {"Hamburger", 12.9});
     insereElementoFinal(lista, {"Batata Frita", 12.2});
@@ -87,7 +88,7 @@ void imprimeLista(TListaDE<Pedido> &lista){
     std::cout << "\n";
 }
 
-void imprimeLista(TListaEnc<Item> &lista){
+/*void imprimeLista(TListaEnc<Item> &lista){
     if(lista.primeiro == NULL){
         std::cerr << "Cardapio Vazio.\n";
         return;
@@ -97,6 +98,36 @@ void imprimeLista(TListaEnc<Item> &lista){
     for(TElemento<Item>* nav = lista.primeiro; nav != NULL || index == 0; nav = nav->proximo){
         std::cout << "Elemento[" << index << "] Nome: " << nav->conteudo.nome << " | Preco: " << nav->conteudo.preco << ". Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
         index++;
+    }
+    std::cout << "\n";
+}*/
+
+template <int tamanho>
+void inicializaLista(TListaEst<Item, tamanho> &lista){
+    lista.tamanho = tamanho;
+    for(int i = 0; i < lista.tamanho; i++){
+        lista.list[i] = {"", 0};
+    }
+    lista.contador = 0;
+}
+
+template <int tamanho>
+Item retornaElemento(TListaEst<Item, tamanho> &lista, int pos){
+    for(int i = 0; i < lista.tamanho; i++){
+        if(i == pos){
+            return lista.list[i];
+        }
+    }
+    return {"", 0};
+}
+
+template <int tamanho>
+void imprimeLista(TListaEst<Item, tamanho> lista){
+    std::cout << "Cardapio:\n";
+    for(int i = 0; i < tamanho; i++){
+        if(lista.list[i].nome != ""){
+            std::cout << lista.list[i].nome << ": R$" << lista.list[i].preco << ";\n";
+        }
     }
     std::cout << "\n";
 }

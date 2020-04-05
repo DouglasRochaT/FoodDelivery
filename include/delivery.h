@@ -5,7 +5,7 @@
 #include <string.h>
 #include "listCirc.h"
 #include "listDEnc.h"
-#include "listEnc.h"
+#include "listEst.h"
 #include "tadEsp.h"
 #include "consts.h"
 
@@ -28,7 +28,7 @@ void contrataOuDemiteEntregador(TListaC<Entregador> &listaEntregadores, TElement
         insereElementoFinal(listaEntregadores, {nomes[indexNome], 1, 0});
         std::cout << "Novo Entregador: " << nomes[indexNome] << "\n";
     }
-    if(checagemEventoEntregador == 1 && retornaTamanho(listaEntregadores) > 1){
+    if(checagemEventoEntregador == 1 && retornaTamanho(listaEntregadores) > 2){
         int deletando = rand() % retornaTamanho(listaEntregadores);
         if(entregadorAtual == retornaElemento(listaEntregadores, deletando)){
             entregadorAtual = entregadorAtual->proximo;
@@ -36,7 +36,6 @@ void contrataOuDemiteEntregador(TListaC<Entregador> &listaEntregadores, TElement
         TElementoC<Entregador>* aSerDeletado = retornaElemento(listaEntregadores, deletando);
         std::cout << aSerDeletado->conteudo.nome << " se demitiu!\n";
         removeElementoPos(listaEntregadores, deletando);
-        imprimeLista(listaEntregadores);
     }
 }
 
@@ -106,24 +105,24 @@ int estimaTempo(TListaDE<Pedido> &pedidosPendentes){
 }
 
 //Cria um novo pedido e o adiciona na lista de pedidos pendentes.
-void criaPedido(TListaEnc<Item> cardapio, TListaDE<Pedido> &pedidosPendentes, const char* horario){
+void criaPedido(TListaEst<Item, 12> cardapio, TListaDE<Pedido> &pedidosPendentes, const char* horario){
     const char* nomeDeEntrega = nomes[rand() % 1068];
     const char* enderecoDeEntrega = ruas[rand() % 135];
-    TElemento<Item>* alimento = retornaElemento(cardapio, rand() % 6);
-    TElemento<Item>* bebida = retornaElemento(cardapio, (rand() % 6) + 6);
+    Item alimento = retornaElemento(cardapio, rand() % 6);
+    Item bebida = retornaElemento(cardapio, (rand() % 6) + 6);
     int tempoEstimado = estimaTempo(pedidosPendentes);
     insereElementoFinal(pedidosPendentes,
         {
             nomeDeEntrega,
             enderecoDeEntrega,
             horario,
-            alimento->conteudo.nome,
-            bebida->conteudo.nome,
-            alimento->conteudo.preco + bebida->conteudo.preco,
+            alimento.nome,
+            bebida.nome,
+            alimento.preco + bebida.preco,
             tempoEstimado,
             5
         });
-    std::cout << "Novo Pedido! \n" << "Alimento: " << alimento->conteudo.nome << " | Bebida: " << bebida->conteudo.nome << " | Preco: " << alimento->conteudo.preco + bebida->conteudo.preco << ". \n";
+    std::cout << "Novo Pedido! \n" << "Alimento: " << alimento.nome << " | Bebida: " << bebida.nome << " | Preco: " << alimento.preco + bebida.preco << ". \n";
     std::cout << "Encomendado em " << horario << ", Previsao de preparo: " << tempoEstimado << " minutos.\n";
     std::cout << "Entrega em " << enderecoDeEntrega << " para " << nomeDeEntrega << "\n";
 }
