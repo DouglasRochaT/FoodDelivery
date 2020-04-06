@@ -152,15 +152,16 @@ void fechaCaixa(TListaDE<Pedido> pedidosConcluidos){
         primeiraContagem += nav->conteudo.preco;
         nav2 = nav->anterior;
     }
+    nav2 = nav2->proximo;
     for(segundaContagem = 0; nav2 != NULL; nav2 = nav2->anterior){
         segundaContagem += nav2->conteudo.preco;
     }
-    if(abs(primeiraContagem == segundaContagem) < 0.001){
+    if(abs(primeiraContagem - segundaContagem) < 0.001){
         std::cout << "O caixa foi fechado corretamente,\n";
         std::cout << "Foi arrecadado o valor de " << primeiraContagem << " reais. \n";
         std::cout << "Foram realizados " << retornaTamanho(pedidosConcluidos) << " pedidos.\n";
     } else {
-        std::cerr << " Foi encontrada uma divegencia de " << abs(primeiraContagem - segundaContagem) << " reais no fechamento de caixa!";
+        std::cerr << " Foi encontrada uma divegencia de " << primeiraContagem - segundaContagem << " reais no fechamento de caixa!";
     }
 }
 
