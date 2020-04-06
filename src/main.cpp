@@ -32,11 +32,8 @@ int main(){
     //O período de atendimento do restaurante é 5 horas (300 minutos),
     //Você pode fazer o fechamento do caixa após a conclusão/entrega de todos pedidos. 
     for(int tempoAtual = 0; tempoAtual < 300 || retornaTamanho(pedidosPendentes) > 0; tempoAtual++){
-        std::string strHorario = retornaHorario(tempoAtual);
-        const char* horario = &strHorario[0];
+        const char* horario = &retornaHorario(tempoAtual)[0];
         std::cout << horario << "\n";
-
-        decrementaTempoPedidos(pedidosPendentes, numeroDeCozinheiros);
 
         //A cada 2 minutos, uma nova compra é efetuada,
         //Após o período de antendimento, nenhum pedido pode ser registrado no aplicativo.
@@ -46,6 +43,7 @@ int main(){
 
         entregaPedido(pedidosPendentes, pedidosConcluidos, listaEntregadores, entregadorAtual);
         contrataOuDemiteEntregador(listaEntregadores, entregadorAtual);
+        decrementaTempoPedidos(pedidosPendentes, numeroDeCozinheiros);
         decrementaTempoEntregadores(listaEntregadores);
         std::cout << "--------------------------------------------------------------\n";
     }

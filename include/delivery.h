@@ -22,6 +22,7 @@ std::string retornaHorario(int tempoAtual){
 
 //Define a probabilidade de uma contratação ou demissão de entregadores.
 void contrataOuDemiteEntregador(TListaC<Entregador> &listaEntregadores, TElementoC<Entregador>* &entregadorAtual){
+    std::cout << "--------------------------------------------------------------\n";
     int checagemEventoEntregador = rand() % 150;
     if(checagemEventoEntregador == 0){
         int indexNome = rand() % 1068;

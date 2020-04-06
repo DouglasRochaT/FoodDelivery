@@ -81,26 +81,12 @@ void imprimeLista(TListaDE<Pedido> &lista){
         std::cout << "Imprimindo Lista de Pedidos \n";
         int contador = 0;
         for(TElementoDE<Pedido>* nav = lista.primeiro; nav != NULL; nav = nav->proximo){
-            std::cout << "Elemento[" << contador << "] Alimento: " << nav->conteudo.alimento << " | Bebida: " << nav->conteudo.bebida << " | Preco: " << nav->conteudo.preco << ". Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
+            std::cout << "Pedido[" << contador << "] Alimento: " << nav->conteudo.alimento << " | Bebida: " << nav->conteudo.bebida << " | Preco: " << nav->conteudo.preco << ". Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
             contador++;
         }
     }
     std::cout << "\n";
 }
-
-/*void imprimeLista(TListaEnc<Item> &lista){
-    if(lista.primeiro == NULL){
-        std::cerr << "Cardapio Vazio.\n";
-        return;
-    }
-    std::cout << "Imprimindo Cardapio: \n";
-    int index = 0;
-    for(TElemento<Item>* nav = lista.primeiro; nav != NULL || index == 0; nav = nav->proximo){
-        std::cout << "Elemento[" << index << "] Nome: " << nav->conteudo.nome << " | Preco: " << nav->conteudo.preco << ". Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
-        index++;
-    }
-    std::cout << "\n";
-}*/
 
 template <int tamanho>
 void inicializaLista(TListaEst<Item, tamanho> &lista){
