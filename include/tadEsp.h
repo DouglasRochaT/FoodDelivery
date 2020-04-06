@@ -81,7 +81,7 @@ void imprimeLista(TListaDE<Pedido> &lista){
         std::cout << "Imprimindo Lista de Pedidos \n";
         int contador = 0;
         for(TElementoDE<Pedido>* nav = lista.primeiro; nav != NULL; nav = nav->proximo){
-            std::cout << "Pedido[" << contador << "] Alimento: " << nav->conteudo.alimento << " | Bebida: " << nav->conteudo.bebida << " | Preco: " << nav->conteudo.preco << ". Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
+            std::cout << "Elemento[" << contador << "] Alimento: " << nav->conteudo.alimento << " | Bebida: " << nav->conteudo.bebida << " | Preco: " << nav->conteudo.preco << ". Addr: " << nav << ", Proximo: " << nav->proximo << ";\n";
             contador++;
         }
     }

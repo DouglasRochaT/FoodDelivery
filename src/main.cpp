@@ -9,18 +9,22 @@
 
 int main(){
     srand(time(NULL));
-    //Declaração de variáveis, cardapio, lista de pedidos, entregadores, preços, etc...
+    //Declaração de variáveis, cardapio, lista de pedidos, entregadores, etc...
+    //Cardápio
     TListaEst<Item, 12> cardapio;
     inicializaLista(cardapio);
     preencheCardapio(cardapio);
     imprimeLista(cardapio);
 
+    //Pedidos Pendentes
     TListaDE<Pedido> pedidosPendentes;
     inicializaLista(pedidosPendentes);
 
+    //Pedidos Concluídos
     TListaDE<Pedido> pedidosConcluidos;
     inicializaLista(pedidosConcluidos);
 
+    //Entregadores
     TListaC<Entregador> listaEntregadores;
     inicializaLista(listaEntregadores);
     preencheListaEntregadores(listaEntregadores, 5);
